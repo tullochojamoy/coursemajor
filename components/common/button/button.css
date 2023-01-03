@@ -1,0 +1,18 @@
+.cm-button {
+  background: transparent;
+  border: 2px solid #478ac9;
+  border-radius: 50px;
+  color: #478ac9;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  height: 42px;
+  transition: all 0.1s linear;
+  width: 100%;
+}
+
+.cm-button:hover {
+  cursor: pointer;
+  background: #478ac9;
+  color: #ffffff;
+}

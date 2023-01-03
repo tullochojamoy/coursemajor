@@ -1,0 +1,110 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/usersModel');
+const ErrorResponse = require("./errorResponse");
+import connectDB from '../config/db';
+
+
+export function isAuth (handler)  {
+  connectDB();
+  console.log('1')
+  return async (req, res) => {
+    console.log('2');
+    let token;
+    //let decodedData;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1];
+      }
+      if (!token) {
+        //return next(new ErrorResponse('Not authorized to access this route', 401));
+        return res.status(401).json('Not authorized to access this route')
+      }
+      const isCustomAuth = token.length < 500;
+      console.log('Point 1');
+      try {
+        console.log('Point 2');
+        if (token && isCustomAuth) {
+          console.log('Point 3');
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          const user = await User.findById(decoded._id);
+          if (!user) {
+            //return next(new ErrorResponse('No user found with this id', 404));
+            res.status(404).json('No user found with this id');
+          }
+          req.user = user;
+        } else {
+          const decodedData = jwt.decode(token);
+          console.log('Point 4');
+          const user = await User.find({
+            googleId: decodedData?.sub,
+            email: decodedData?.email,
+          })
+          console.log('Point 5');
+          
+          
+          //console.log(user[0]);
+          if (!user) {
+            //return next(new ErrorResponse('No user found with this id', 404));
+            res.status(404).json('No user found with this id');
+          }
+          req.user = user[0];
+        }
+
+    //next();
+    console.log('Point 6');
+    return handler(req, res);
+    } catch (error) {
+      //return next(new ErrorResponse('Not authorized to access this route', 401));
+      console.log('Point 7');
+      return res.status(401).send({ error: 'Not authorized to access this route'});
+    }
+    console.log('8');
+  };
+}
+
+export function isSeller (handler)  {
+  return async (req, res) => {
+    if (req.user && req.user.isSeller) {
+      return handler(req, res);
+    } else {
+      res.status(401).send({ error: 'Invalid Seller Token' });
+    }
+  };
+};
+
+
+export function isSellerOrAdmin (handler)  {
+  return async (req, res) => {
+    if (req.user && (req.user.isSeller || req.user.isAdmin)) {
+      return handler(req, res);
+    } else {
+      res.status(401).send({ error: 'Invalid Admin/Seller Token' });
+    }
+  };
+};
+
+export function isAdmin (handler)  {
+  return async (req, res) => {
+    if (req.user && req.user.isAdmin) {
+      return handler(req, res);
+    } else {
+      res.status(401).send({ error: 'Invalid Admin Token' });
+    }
+  };
+};
+
+export default { isAuth, isSeller, isSellerOrAdmin, isAdmin };
+
+
+
+exports.sendToken = (user, statusCode, res) => {
+  const token = user.getSignedJwtToken();
+  res.status(statusCode).json({
+    success: true,
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+    isSeller: user.isSeller,
+    isAdmin: user.isAdmin,
+    token,
+  });
+};

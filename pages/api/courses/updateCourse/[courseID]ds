@@ -1,0 +1,49 @@
+import formidable from 'formidable';
+import Courses from '../../../../models/coursesModel';
+import { uploadImage } from '../../../../utils/s3';
+import isAuth from '../../../../utils/isAuth';
+import connectDB from '../../../../config/db';
+import { uploadFile, deleteFile, getFileStream } from '../../../../utils/s3';
+
+//For File Deletion after upload
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+connectDB();
+
+async function handler (req, res) {
+  const form = new formidable.IncomingForm();
+  form.uploadDir = './';
+  form.keepExtensions = true;
+  
+  const { courseID } = req.query;
+  
+  //Update a course
+  const course = await Courses.findById(courseID);
+  
+  if (req.user._id.toString !== course.seller.toString) {
+    return res
+    .status(404)
+    .send({ error: 'You are not the owner of this course' });
+  }
+  
+  try {
+    await form.parse(req, (err, fields, files) => {
+      
+    });
+  } catch (err) {
+    console.log(err);
+    return res.send({ message: 'Error Parsing Form Data' });
+  }
+
+
+};
+
+export default isAuth(handler);

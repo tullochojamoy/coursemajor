@@ -1,0 +1,33 @@
+.cm-profile-header-links {
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cm-profile-header-links-section {
+  display: flex;
+  padding: 0;
+  justify-content: space-around;
+}
+.profile-menu-item {
+  margin: 0;
+  padding: 8px 6px 8px 6px;
+}
+.profile-menu-item:hover {
+  background-color: lightblue;
+}
+.profile-header-image {
+  width: 250px;
+  padding: 12px 0px 2px 0;
+}
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cm-profile-horizontal {
+  margin: 0;
+  background-color: D9D9D9;
+  color: D9D9D9;
+  width: 100%;
+}

@@ -1,0 +1,39 @@
+.cm-input--container {
+  border: 1px solid #b3b3b3;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cm-input {
+  padding-left: 0.8em;
+  flex: 1 1;
+  position: relative;
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  outline: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  color: inherit;
+  width: 100%;
+  font-size: 16px;
+}
+
+.cm-input--submit-button {
+  background: none;
+  border: none;
+}
+
+.cm-input--search-icon {
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 10px 10px 10px 0;
+}
+
+.cm-input--search-icon:hover {
+  cursor: pointer;
+}

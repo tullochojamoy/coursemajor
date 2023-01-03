@@ -1,0 +1,141 @@
+.cm-header {
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  min-height: 70px;
+}
+
+.cm-header--container {
+  align-items: center;
+  display: flex;
+  width: 1140px;
+}
+
+.cm-header--title {
+  height: 40px;
+  margin-right: 50px;
+}
+
+.cm-header--title-img {
+  height: 40px;
+}
+
+.cm-header--search {
+  flex: 1;
+  max-width: 500px;
+}
+
+.cm-header-button--container {
+  align-items: center;
+  display: flex;
+  margin-left: auto;
+}
+
+.cm-header-button {
+  margin-left: 24px;
+  padding: 0 0px;
+  text-transform: uppercase;
+  min-width: 100px;
+  background: transparent;
+  border: 2px solid #478ac9;
+  border-radius: 50px;
+  color: #478ac9;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  height: 42px;
+  transition: all 0.1s linear;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cm-header-button:hover {
+  cursor: pointer;
+  background: #478ac9;
+  color: #ffffff;
+}
+
+.cm-header--menu {
+  margin-left: 24px;
+}
+
+.cm-header--menu:hover {
+  cursor: pointer;
+}
+
+.cm-header--link {
+  display: none;
+}
+
+@media only screen and (max-width: 1140px) {
+  .cm-header--container {
+    margin: 0 48px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .cm-header--title {
+    align-self: flex-start;
+    font-size: 32px;
+    margin-right: 24px;
+  }
+
+  .cm-header--container {
+    flex-direction: column;
+    margin: 18px 24px 0px 24px;
+    max-width: 750px;
+  }
+
+  .cm-header-button--container {
+    align-self: flex-end;
+    margin-top: -36px;
+  }
+
+  .cm-header-button--container > * {
+    height: 36px;
+  }
+
+  .cm-header--search {
+    margin: 24px 0;
+    order: 2;
+    min-width: 100%;
+  }
+  .cm-header--search__small {
+    margin: 6px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .cm-header-button__authorised {
+    display: none;
+  }
+
+  .cm-header--title-img {
+    height: 33px;
+  }
+
+  .cm-header--title {
+    height: 33px;
+  }
+
+  .cm-header--menu {
+    height: 2em;
+    width: 2em;
+  }
+
+  .cm-header--link {
+    border-bottom: 1px solid #478ac9;
+    color: #478ac9;
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    order: 3;
+  }
+
+  .cm-header--container {
+    margin: 18px 24px 18px 24px;
+  }
+}
