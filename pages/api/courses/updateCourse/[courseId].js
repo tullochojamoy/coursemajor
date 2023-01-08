@@ -2,7 +2,7 @@ import nextConnect from 'next-connect';
 const { isAuth, isSellerOrAdmin } = require('../../../../utils/utils old');
 const { uploadImage, upload } = require('../../../../utils/multer');
 import Courses from '../../../../models/coursesModel';
-import connectDB from '../../../../config/db';
+import { preHandler } from '../../../../utils/utils';
 
 const { uploadFile, deleteFile, getFileStream } = require('../../../../utils/s3');
 
@@ -21,58 +21,38 @@ connectDB();
 
 //Update a course
 const UpdateCourse = async (req, res) => {
-    const { courseId } = req.query;
-    //console.log(req.body)
-    //const courseId = req.params.id;
-    //console.log(courseId);
-    const course = await Courses.findById(courseId);
-    
-    if (req.user._id.toString !== course.seller.toString) {
-        return res.status(404).send({ message: 'You are not the owner of this course' });
+  const {name,price,description,category,subcategory,tags} = req.body;
+  const { courseId } = req.query;
+
+  const course = await Courses.findById(courseId);
+  if(!course) throw new Error('Course Not Found');
+
+  if (req.user._id.toString !== course.seller.toString) {
+    throw new Error('You are not the owner of this course');
+  }
+
+  let result = null;
+
+  if (req.file) {
+    const file = req.file;
+    result = await uploadFile(file);
+    await unlinkFile(file.path);
+    if (course.imageKey!=='2afc8b6cf9eac4ba672938e7b792ccdc'){
+      await deleteFile(course.imageKey);
     }
-
-    try {
-        let result = null;
-
-        if (req.file) {
-            const file = req.file;
-            result = await uploadFile(file);
-            console.log(result);
-            await unlinkFile(file.path);
-            if (course.imageKey!=='2afc8b6cf9eac4ba672938e7b792ccdc')
-            await deleteFile(course.imageKey);
-        }
+  }
       
-      if (course) {
-        if (req.body.name) 
-        course.title = req.body.name;
-        if (req.body.price)
-        course.price = parseInt(req.body.price);
-        if (req.file && result)
-        course.imageKey = result.Key;
-        if (req.body.description)
-        course.description = req.body.description;
-        if (req.body.category)
-        course.category = req.body.category;
-        if (req.body.subcategory)
-            course.subCategory = req.body.subCategory;
-            if (req.body.tags)
-            course.tags = req.body.tags;
+  if (name) course.title = name;
+  if (price) course.price = parseInt(price);
+  if (req.file && result) course.imageKey = result.Key;
+  if (description) course.description = description;
+  if (category) course.category = category;
+  if (subcategory) course.subCategory = subCategory;
+  if (tags) course.tags = req.body.tags;
             
-        try {
-          const updatedCourse = await course.save();
-          res.send({ message: 'course Updated', course: updatedCourse });
-          //console.log(updatedCourse);
-        } catch (error) {
-          //res.status(404).send({ message: 'Course Not Found' });
-        }
-      } else {
-        //res.status(404).send({ message: 'Course Not Found' });
-      }
-    } catch(err) {
-        res.json(err);
-    }
+  const updatedCourse = await course.save();
+  return res.status(200).send({ message: 'course Updated', course: updatedCourse });
 };
 
 
-export default nextConnect().put(isAuth, uploadImage.single("image"), UpdateCourse);
+export default nextConnect().put(isAuth, uploadImage.single("image"), preHandler(UpdateCourse));

@@ -1,39 +1,29 @@
-//import Courses from '../../../models/coursesModel';
 import Order from '../../../models/orderModel';
-
-import connectDB from '../../../config/db';
-
+import { preHandler } from '../../../utils/utils';
 import isAuth from '../../../utils/isAuth';
 
 async function handler(req, res) {
-   //const courseId = req.params.courseId;
   const { courseId } = req.query;
-  connectDB();
   if (req.method === 'GET') {
-      try {
-        const Orders = await Order.find({ user: req.user._id });
-        let courseId=[];
-        Orders.forEach(item => { 
-          courseId.push(item.orderItems[0].course);
-        });
+    const Orders = await Order.find({ user: req.user._id });
+    let courseId=[];
+    Orders.forEach(item => { 
+      courseId.push(item.orderItems[0].course);
+    });
         
-        let pos = function(element, index, theArray){
-          //console.log(element + " - " + index);
-          return element == courseId;
-        }
+    let pos = function(element, index, theArray){
+      return element == courseId;
+    }
 
-        const courseIndex = courseId.findIndex(pos);
-        if (courseIndex>=0) {
-          res.json(Orders[courseIndex]);
-        } else {
-          res.send(false);
-        }
-        
-      } catch (err) {
-        res.json({ message: err });
-      }
+    const courseIndex = courseId.findIndex(pos);
+    if (courseIndex>=0) {
+      return res.status(200).json(Orders[courseIndex]);
+    } else {
+      return res.send(false);
+    }
+
   }
 }
 
 
-export default isAuth(handler);
+export default preHandler(isAuth(handler));

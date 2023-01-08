@@ -93,8 +93,7 @@ const UserSchema = new mongoose.Schema(
                 type: Number, 
             }
         },
-        
-        
+         
         resetPasswordToken: String,
         resetPasswordExpire: Date,
     }
@@ -111,6 +110,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.matchPassword = async function (password) {
+    if(!this.password) return false;
     return await bcrypt.compare(password, this.password);
 };
 
@@ -149,4 +149,4 @@ UserSchema.methods.hackerAlert= function() {
     this.hackerDetected=true;
 };
 
-module.exports = mongoose.models.User || mongoose.model("User", UserSchema);
+export default mongoose.models.User || mongoose.model("User", UserSchema);

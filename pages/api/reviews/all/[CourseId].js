@@ -1,10 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { preHandler } from '../../../../utils/utils';
 
-export default async function handler(req, res) {
-      try {
-        const reviews = await Reviews.find({ "course": req.params.CourseId });
-        res.json(reviews.sort(reviews.star));
-    } catch (err) {
-        res.json({ message: err });
-    }
+async function handler(req, res) {
+    const reviews = await Reviews.find({ "course": req.params.CourseId });
+    if(!reviews) throw new Error('No Reviews Found');
+
+    return res.status(200).json(reviews.sort(reviews.star));
 }
+
+export default preHandler(handler);

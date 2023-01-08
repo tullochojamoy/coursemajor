@@ -1,59 +1,35 @@
 import Courses from '../../../../models/coursesModel';
 import Playlist from '../../../../models/playlistModel';
-
-import connectDB from '../../../../config/db';
+import { preHandler } from '../../../../utils/utils';
 
 import isAuth from '../../../../utils/isAuth';
 
-connectDB();
-
 async function handler(req, res) {
-
   const { courseId } = req.query;
 
   if (req.method === 'PUT') {
-    try{
-            //console.log(req.params.courseId);
-                const course = await Courses.findOne({ _id: courseId }); 
+    const course = await Courses.findOne({ _id: courseId }); 
+    if (!course) throw new Error('Course Not Found');
 
-                //console.log(req.user._id)
+    if (req.user._id.toString() != course.seller.toString()) {
+        throw new Error('You are not the owner of this course');
+    }
 
-                if (req.user._id.toString() != course.seller.toString()) {
-                    return res.status(404).send({ message: 'You are not the owner of this course' });
-                }
-
-                if (!course)
-                    return res.status(404).send({ message: 'Course Not Found' });
-
-                const playlist = await Playlist.findOne({ Course: courseId }); 
-
-                if (!playlist)
-                    return res.status(404).send({ message: 'Playlist Not Found' });
+    const playlist = await Playlist.findOne({ Course: courseId }); 
+    if (!playlist) throw new Error('Playlist Not Found');
                     
-                if (playlist.videoplaylist.length !== 0) {
-                    try{
-                        if (course.published == true)
-                            course.published = false;
-                        else if (course.published == false)
-                            course.published = true;
-                    } catch (error) {
-                        console.log(error);
-                    }
-                } else {
-                    return res.status(404).send({ message: 'Please Add A Video' });
-                }   
+    if (playlist.videoplaylist.length === 0) {
+        throw new Error('Please Add A Video')
+    } 
 
-                const updatedCourse = await course.save();
-                res.send({ message: 'Playlist Updated', course: updatedCourse });
-            
-            } catch (error) {
-                console.log(error);
-            }
+    course.published = !course.published;
+    
+    const updatedCourse = await course.save();
+    return res.status(200).send({ message: 'Playlist Updated', course: updatedCourse });
 
-        }
-
+    }
 }
 
 
 
-export default isAuth(handler);
+export default preHandler(isAuth(handler));

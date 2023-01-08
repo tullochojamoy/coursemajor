@@ -1,9 +1,6 @@
-//const Playlist = require('../models/playlistModel');
+import { preHandler } from '../../../../utils/utils';
+
 import Playlist from '../../../../models/playlistModel';
-
-import connectDB from '../../../../config/db';
-
-//import { uploadFile, deleteFile, getFileStream } from '../../../../utils/s3';
 
 import isAuth from '../../../../utils/isAuth';
 
@@ -23,19 +20,16 @@ function compare(a, b) {
 
 async function handler(req, res) {
   const { courseId } = req.query;
-  connectDB();
 
   //Return specific playlist
   if (req.method === 'GET') {
-      try {
-        const playlist = await Playlist.findOne({ Course: courseId });
-        playlist.videoplaylist = playlist.videoplaylist.sort(compare);
-        res.json(playlist);
-      } catch (err) {
-        res.json({ message: err });
-      }
+    const playlist = await Playlist.findOne({ Course: courseId });
+    if(!playlist) throw new Error('Playlist Not Found');
+
+    playlist.videoplaylist = playlist.videoplaylist.sort(compare);
+    return res.status(200).json(playlist);
   }
   
 }
 
-export default isAuth(handler);
+export default preHandler(isAuth(handler));

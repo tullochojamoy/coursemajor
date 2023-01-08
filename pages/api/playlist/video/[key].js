@@ -1,15 +1,9 @@
-//const { uploadFile, deleteFile, getFileStream } = require('../utils/s3');
-
+import { preHandler } from '../../../../utils/utils';
 import { uploadFile, deleteFile, getFileStream } from '../../../../utils/s3';
 
-export default async function handler(req, res) {
-  //connectDB();
-  const { key } = req.query;
-
+async function handler(req, res) {
   if (req.method === 'GET') {
-
-    try {
-      //const key = req.params.key;
+    const { key } = req.query;
 
       if (
         key!==undefined && 
@@ -24,9 +18,7 @@ export default async function handler(req, res) {
       } else {
         console.log('No Key');
       }
-    } catch (err) {
-      console.log(err);
-    }
-
   }
 }
+
+export default preHandler(handler);

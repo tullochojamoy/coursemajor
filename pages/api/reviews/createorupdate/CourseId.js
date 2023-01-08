@@ -1,16 +1,17 @@
 const { isAuth } = require('../../../../utils/utils.js')
+import { preHandler } from '../../../../utils/utils';
+import Reviews from '../../../../models/reviewsModel';
 
-export default async function handler(req, res) {
-   try{
-        const existingReview = await Reviews.find({ "course": req.params.CourseId, "user": req.user._id  });
+async function handler(req, res) {
+    const existingReview = await Reviews.find({ "course": req.params.CourseId, "user": req.user._id  });
 
-        if (existingReview) {
-            existingReview.title = req.body.reviewTitle;
-            existingReview.star = parseInt(req.body.review);
-            existingReview.message = req.body.reviewMessage;
-            const updatedReview = await existingReview.save();
-            return res.send({ message: 'review Updated', review: updatedReview });
-        }
+    if (existingReview) {
+        existingReview.title = req.body.reviewTitle;
+        existingReview.star = parseInt(req.body.review);
+        existingReview.message = req.body.reviewMessage;
+        const updatedReview = await existingReview.save();
+        return res.status(200).send({ message: 'review Updated', review: updatedReview });
+    }
 
         const review = new Reviews({
             title: req.body.reviewTitle,
@@ -22,9 +23,8 @@ export default async function handler(req, res) {
         });
 
     //Save to DB and respond with data (Testing) or errr
-        const savedReview = await review.save();
-        res.json(savedReview);
-    } catch (err) {
-        res.json({ message: err });
-    }
+    const savedReview = await review.save();
+    res.json(savedReview);
 }
+
+export default preHandler(handler);

@@ -1,9 +1,6 @@
 import Playlist from '../../../../models/playlistModel';
-import connectDB from '../../../../config/db';
-
+import { preHandler } from '../../../../utils/utils';
 import isAuth from '../../../../utils/isAuth';
-
-connectDB();
 
 //Global Compare Sort Function
 function compare(a, b) {
@@ -20,32 +17,25 @@ function compare(a, b) {
 }
 
 async function handler(req, res) {
-  const { courseId } = req.query;
-
   //Update a video
   if (req.method === 'PUT') {
+  const { courseId } = req.query;
     const numToUpdate = req.body.numToUpdate;
 
     const playlist = await Playlist.findOne({ Course: courseId });
+    if (!playlist) throw new Error('Playlist Not Found');
 
-    if (!playlist)
-      return res.status(404).send({ message: 'Playlist Not Found' });
-
-    try {
-      let numToUpdateIndex = await playlist.videoplaylist.findIndex(
-        (item) => item.Number == numToUpdate
-      );
-      playlist.videoplaylist[numToUpdateIndex].Title = req.body.title;
-      playlist.videoplaylist[numToUpdateIndex].Description = req.body.description;
-      playlist.Thumbnail = req.body.Thumbnail;
-    } catch (error) {
-      console.log(error);
-    }
+    let numToUpdateIndex = await playlist.videoplaylist.findIndex(
+      (item) => item.Number == numToUpdate
+    );
+    playlist.videoplaylist[numToUpdateIndex].Title = req.body.title;
+    playlist.videoplaylist[numToUpdateIndex].Description = req.body.description;
+    playlist.Thumbnail = req.body.Thumbnail;
 
     const updatedPlaylist = await playlist.save();
     updatedPlaylist.videoplaylist = updatedPlaylist.videoplaylist.sort(compare);
-    res.send({ message: 'Playlist Updated', playlist: updatedPlaylist });
+    return res.status(200).send({ message: 'Playlist Updated', playlist: updatedPlaylist });
   }
 }
 
-export default isAuth(handler);
+export default preHandler(isAuth(handler));

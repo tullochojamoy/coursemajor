@@ -1,6 +1,6 @@
 import Courses from '../../../../models/coursesModel';
 import Playlist from '../../../../models/playlistModel';
-import connectDB from '../../../../config/db';
+import { preHandler } from '../../../../utils/utils';
 import isAuth from '../../../../utils/isAuth';
 import withRoles from '../../../../utils/withRoles';
 
@@ -21,25 +21,21 @@ function escapeRegex(text) {
 
 async function handler(req, res) {
   const { courseID } = req.query;
-  connectDB();
-
-  //Delete a course
   if (req.method === 'DELETE') {
-      const courses = await Courses.findById(courseID);
-      if (courses.seller != req.user.id || !req.user.isAdmin) return;
+    const course = await Courses.findById(courseID);
+    if(!course) throw new Error('Course Not Found');
 
-      try {
-        await deleteFile(courses.imageKey);
-        const removedCourse = await Courses.remove({ _id: courseID });
-        res.json(removedCourse);
-      } catch (err) {
-        res.json({ message: err });
-      }
+    if (courses.seller != req.user.id || !req.user.isAdmin){
+      throw new Error('Please Login to Delete this Course');
+    }
 
+    
+    await deleteFile(course.imageKey);
+    const removedCourse = await Courses.remove({ _id: courseID });
+    if (!removedCourse) throw new Error('Unable to Delete Course');
 
+    return res.status(201).json(removedCourse);
   }
-
 }
 
-//export default isAuth(withhandler);
-export default isAuth(withRoles(handler,'seller'));
+export default preHandler(isAuth(withRoles(handler,'seller')));

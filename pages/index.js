@@ -183,14 +183,14 @@ export default function Home({courses}) {
                       <p className='u-text u-text-grey-50 u-text-3'>
                         Become one of the first teachers on CourseMajor
                       </p>
-                      <button
-                        href='/createcoursefunnel'
+                      <Link
+                        href='/teachtoday'
                         //onClick={scrollClickHandler}
                       >
                         <a className='u-active-palette-1-dark-2 u-btn u-btn-rectangle u-button-style u-custom-font u-font-pt-sans u-hover-palette-1-dark-2 u-palette-1-dark-3 u-radius-0 u-btn-1'>
                           START TEACHING
                         </a>
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

@@ -5,7 +5,6 @@ import { signin } from '../redux/actions/userActions';
 import Link from 'next/link';
 
 import { useRouter } from 'next/router';
-//import queryString from 'query-string';
 
 import { googleRegisterLogin, facebookRegisterLogin } from '../redux/actions/userActions';
 import { GoogleLogin } from 'react-google-login';
@@ -19,34 +18,27 @@ export default function Login() {
 
   
   const router = useRouter();
-  //const { id } = router.query;
   const { redirect } = router.query;
-  console.log(redirect)
-  
-  //const { redirect } = queryString.parse(search);
   
   const userSignin = useSelector(state => state.userSignin);
   
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const submitRef = useRef(null);
-
+  
+  const dispatch = useDispatch();
 
   useEffect(() => {
     emailRef.current.focus();
-
-    //return ()=> clearInterval(interval);
   }, []);
 
   useEffect(() => {
     if (localStorage.getItem("userInfo")) {
       redirect ? router.push(redirect)
       : router.push("/");
-    }
-    
+    } 
   }, [router, redirect, userSignin]);
 
-  const dispatch = useDispatch();
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -56,13 +48,11 @@ export default function Login() {
       redirect ? router.push(redirect)
       : router.push("/");
     }
-    
+
     setError(userSignin.error);
     setTimeout(() => {
       setError("");
-    }, 10000);
-
-    
+    }, 10000);    
   };
 
 
@@ -88,7 +78,6 @@ export default function Login() {
 
 
     const responseFacebook = async (response) => {
-      //console.log("Login result", response);
       try{
         dispatch(facebookRegisterLogin(response));
       } catch (error) {
@@ -100,12 +89,6 @@ export default function Login() {
         : router.push("/");
       }
     }
-
-    const componentClicked = (data) => {
-      console.log(data);
-    }
-
-
 
     //Refs Key Down
     const emailKeyDown = (e) => {
@@ -221,7 +204,7 @@ export default function Login() {
               style={{ padding: '10px' }}
             >
               <div className='u-form-group u-form-name'>
-                <label htmlhtmlFor='username-a30d' className='u-label'>
+                <label htmlFor='username-a30d' className='u-label'>
                   Email *
                 </label>
                 <input
@@ -238,7 +221,7 @@ export default function Login() {
                 />
               </div>
               <div className='u-form-group u-form-password'>
-                <label htmlhtmlFor='password-a30d' className='u-label'>
+                <label htmlFor='password-a30d' className='u-label'>
                   Password *
                 </label>
                 <input
@@ -261,7 +244,7 @@ export default function Login() {
                   name='remember'
                   value='On'
                 />
-                <label htmlhtmlFor='checkbox-a30d' className='u-label'>
+                <label htmlFor='checkbox-a30d' className='u-label'>
                   Remember me
                 </label>
               </div>

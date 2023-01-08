@@ -1,13 +1,23 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/usersModel');
 const ErrorResponse = require("./errorResponse");
+import connectDB from '../config/db';
+import mongoose from 'mongoose';
+import nextConnect from 'next-connect';
 
-/*
-exports.sendToken = (user, statusCode, res) => {
+class AppError extends Error{
+  constructor(message, statusCode, errorCode) {
+    super(message);
+    this.errorCode = errorCode;
+    this.statusCode = statusCode;
+  }
+}
+
+const sendToken = (user, statusCode, res) => {
   console.log('Send Token');
 
   const token = user.getSignedJwtToken();
-  res.status(statusCode).json({
+  return res.status(statusCode).json({
     success: true,
     _id: user._id,
     username: user.username,
@@ -17,31 +27,46 @@ exports.sendToken = (user, statusCode, res) => {
     token,
   });
 };
-*/
 
-exports.sendToken = (user, statusCode, res) => {
-  console.log('Send Token');
+const preHandler = (controller) => async(req,res) =>{
+  try{
+    // if (mongoose.connections[0].readyState) {
+    //   return await controller(req, res);
+    // }
+    // await mongoose.connect('mongodb://0.0.0.0:270178', {
+    //     useNewUrlParser: true,
+    //     // useCreateIndex: true,
+    //     // useFindAndModify: false,
+    //     useUnifiedTopology: true,
+    //   })
+    //   .then(async() => {
+    //     return await controller(req, res);
+    //   });
 
-  const token = user.getSignedJwtToken();
-  res.status(statusCode).json({
-    success: true,
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    isSeller: user.isSeller,
-    isAdmin: user.isAdmin,
-    token,
-  });
-};
+    const connected = await connectDB();
+    if (!connected){
+      throw new Error('Database did not start correctly')
+    }
+    return await controller(req,res);
+  } catch(error){
+    if(error instanceof AppError){
+      return res.status(error.statusCode).json({ 
+        message: error.message, 
+        error: error.message ,
+        success: false, 
+      });
+    }
 
-
-
-/*
-exports.test2 = () => {
-  console.log('route hit 2');
+    return res.status(500).json({ 
+      message: error.message || 'Something went wrong', 
+      error: error.message || 'Something went wrong',
+      success: false, 
+    });
+  }
 }
 
-export function test(){
-  console.log('route hit')
-}
-*/
+const middleware = nextConnect();
+middleware.use(connectDB);
+
+
+module.exports = { preHandler, middleware, sendToken, AppError };
