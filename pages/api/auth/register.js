@@ -1,15 +1,12 @@
-const ErrorResponse = require('../../../utils/errorResponse');
 import User from '../../../models/usersModel';
-import { sendToken } from '../../../utils/utils';
-import { preHandler } from '../../../utils/utils';
-
+import { preHandler, sendToken, AppError } from '../../../utils/utils';
 
 async function handler(req, res) {
   if (req.method === 'POST') {
     const { username, email, password } = req.body;
 
     if (!email || !password) {
-      throw new Error('Please provide an email and password');
+      throw new AppError('Please provide an email and password', 400);
     }
 
     const user = await User.findOne({ email }).select('+password');
@@ -20,9 +17,9 @@ async function handler(req, res) {
     }
 
     const isMatch = await user.matchPassword(password);
-    if (!isMatch) throw new Error('Invalid Credentials');
+    if (!isMatch) throw new AppError('Invalid Credentials', 400);
 
-    sendToken(user, 200, res);
+    return sendToken(user, 200, res);
   }
 }
 

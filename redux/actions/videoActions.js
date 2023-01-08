@@ -22,7 +22,7 @@ export const playlistDetails = (courseId) => async (dispatch, getState) => {
     } = getState();
 
     const { data } = await Axios.get(
-      `http://localhost:3000/api/playlist/getPlaylist/${courseId}`,
+      `https://coursemajor.vercel.app/api/playlist/getPlaylist/${courseId}`,
       {
         headers: { Authorization: `Bearer ${userInfo?.token}` },
       }
@@ -45,7 +45,7 @@ export const playlistCreate = (courseId) => async (dispatch, getState) => {
   try {
     const { userSignin: { userInfo }, } = getState();
     const { data } = await Axios.post(
-      `http://localhost:3000/api/playlist/create/${courseId}`,
+      `https://coursemajor.vercel.app/api/playlist/create/${courseId}`,
       {
         headers: { Authorization: `Bearer ${userInfo?.token}` },
       }
@@ -93,7 +93,7 @@ export const playlistUpdate =
 
     try {
       const { data } = Axios.put(
-        `http://localhost:3000/api/playlist/addToPlaylist/${courseId}`,
+        `https://coursemajor.vercel.app/api/playlist/addToPlaylist/${courseId}`,
         formData,
         config
       )
@@ -141,7 +141,7 @@ export const playlistArrange =
       }
 
       const { data } = await Axios.put(
-        `http://localhost:3000/api/playlist/arrange/${courseId}`,
+        `https://coursemajor.vercel.app/api/playlist/arrange/${courseId}`,
         { numToUpdate, up, down },
         {
           headers: { Authorization: `Bearer ${userInfo?.token}` },
@@ -168,7 +168,7 @@ export const playlistVideoUpdate =
 
     try {
       const { data } = await Axios.put(
-        `http://localhost:3000/api/playlist/updateVideoDetails/${courseId}`,
+        `https://coursemajor.vercel.app/api/playlist/updateVideoDetails/${courseId}`,
         { numToUpdate, title, description },
         {
           headers: { Authorization: `Bearer ${userInfo?.token}` },
@@ -195,7 +195,7 @@ export const playlistDelete =
     try {
       console.log(numberToRemove);
       const { data } = await Axios.patch(
-        `http://localhost:3000/api/playlist/remove/${courseId}`,
+        `https://coursemajor.vercel.app/api/playlist/remove/${courseId}`,
         { numberToRemove },
         {
           headers: { Authorization: `Bearer ${userInfo?.token}` },

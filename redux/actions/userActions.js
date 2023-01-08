@@ -21,7 +21,7 @@ export const facebookRegisterLogin = (response) => async (dispatch) => {
     };
 
     const { data } = await Axios.post(
-      'http://localhost:3000/api/auth/facebookRegisterLogin',
+      'https://coursemajor.vercel.app/api/auth/facebookRegisterLogin',
       { response },
       config
     );
@@ -51,7 +51,7 @@ export const googleRegisterLogin = (result, token) => async (dispatch) => {
     };
 
     const { data } = await Axios.post(
-      'http://localhost:3000/api/auth/googleRegisterLogin',
+      'https://coursemajor.vercel.app/api/auth/googleRegisterLogin',
       { username, email, googleId, imageUrl },
       config
     );
@@ -74,7 +74,7 @@ export const signin = (email, password) => async (dispatch) => {
       header: { 'Content-Type': 'application/json' },
     };
     const { data } = await Axios.post(
-      'http://localhost:3000/api/auth/login',
+      'https://coursemajor.vercel.app/api/auth/login',
       { email, password },
       config
     );
@@ -95,7 +95,7 @@ export const register = (username, email, password) => async (dispatch) => {
     };
 
     const { data } = await Axios.post(
-      'http://localhost:3000/api/auth/register',
+      'https://coursemajor.vercel.app/api/auth/register',
       { username, email, password },
       config
     );
@@ -120,7 +120,7 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get(`http://localhost:3000/api/auth/`, {
+    const { data } = await Axios.get(`https://coursemajor.vercel.app/api/auth/`, {
       headers: { Authorization: `Bearer ${userInfo?.token}` },
     });
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
@@ -149,7 +149,7 @@ export const updateUser =
 
     try {
       const { data } = await Axios.put(
-        `http://localhost:3000/api/auth/`,
+        `https://coursemajor.vercel.app/api/auth/`,
         { paypalId, paypalEmail },
         config
       );

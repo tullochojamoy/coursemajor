@@ -21,7 +21,7 @@ import { playlistCreate } from './videoActions';
 export const list_tests = () => async (dispatch) => {
   dispatch({ type: TEST_LIST_REQUEST });
   try {
-    const { data } = await Axios.get('http://localhost:3000/api/tests');
+    const { data } = await Axios.get('https://coursemajor.vercel.app/api/tests');
     dispatch({ type: TEST_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: TEST_LIST_FAIL, payload: error.message });
@@ -32,7 +32,7 @@ export const testsDetails = (testId) => async (dispatch) => {
   dispatch({ type: TEST_DETAILS_REQUEST, payload: testId });
   try {
     const { data } = await Axios.get(
-      `http://localhost:3000/api/tests/${testId}`
+      `https://coursemajor.vercel.app/api/tests/${testId}`
     );
     dispatch({ type: TEST_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -49,7 +49,7 @@ export const testsDetails = (testId) => async (dispatch) => {
 export const testCreate = (testId) => async (dispatch) => {
   dispatch({ type: TEST_CREATE_REQUEST });
   try {
-    const { data } = await Axios.post(`http://localhost:3000/api/tests/create`);
+    const { data } = await Axios.post(`https://coursemajor.vercel.app/api/tests/create`);
     console.log(data);
     dispatch(playlistCreate(data._id));
     dispatch({ type: TEST_CREATE_SUCCESS, payload: data });

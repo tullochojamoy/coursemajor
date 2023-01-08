@@ -27,7 +27,7 @@ import { playlistCreate } from './videoActions';
 export const list_resources = () => async (dispatch) => {
   dispatch({ type: RESOURCE_LIST_REQUEST });
   try {
-    const { data } = await Axios.get('http://localhost:3000/api/resources');
+    const { data } = await Axios.get('https://coursemajor.vercel.app/api/resources');
     dispatch({ type: RESOURCE_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: RESOURCE_LIST_FAIL, payload: error.message });
@@ -42,7 +42,7 @@ export const listPurchasedResources = () => async (dispatch, getState) => {
     } = getState();
 
     const { data } = await Axios.get(
-      'http://localhost:3000/api/resources/purchased',
+      'https://coursemajor.vercel.app/api/resources/purchased',
       { headers: { Authorization: `Bearer ${userInfo.token}` } }
     );
 
@@ -56,7 +56,7 @@ export const resourcesDetails = (resourceId) => async (dispatch) => {
   dispatch({ type: RESOURCE_DETAILS_REQUEST, payload: resourceId });
   try {
     const { data } = await Axios.get(
-      `http://localhost:3000/api/resources/${resourceId}`
+      `https://coursemajor.vercel.app/api/resources/${resourceId}`
     );
     dispatch({ type: RESOURCE_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -78,7 +78,7 @@ export const resourceCreate = (resourceId) => async (dispatch, getState) => {
     } = getState();
 
     /*
-        const {data} = await Axios.post('http://localhost:3000/api/resources/create',
+        const {data} = await Axios.post('https://coursemajor.vercel.app/api/resources/create',
         { headers: { Authorization: `Bearer ${userInfo.token}` }, }
         );
         */
@@ -131,7 +131,7 @@ export const resourceUpdate =
         },
       };
       const { data } = await Axios.put(
-        `http://localhost:3000/api/resources/${resourceId}`,
+        `https://coursemajor.vercel.app/api/resources/${resourceId}`,
         formData,
         config
       )
@@ -169,7 +169,7 @@ export const resourcePublish =
     console.log('action hit');
     try {
       const { data } = await Axios.put(
-        `http://localhost:3000/api/resources/published/${resourceId}`,
+        `https://coursemajor.vercel.app/api/resources/published/${resourceId}`,
         trueF,
         {
           headers: { Authorization: `Bearer ${userInfo?.token}` },
@@ -191,7 +191,7 @@ export const resourceSearch = (searchTerm) => async (dispatch) => {
   dispatch({ type: RESOURCE_SEARCH_LIST_REQUEST });
   try {
     const { data } = await Axios.get(
-      `http://localhost:3000/api/resources/search/${searchTerm}`
+      `https://coursemajor.vercel.app/api/resources/search/${searchTerm}`
     );
     dispatch({ type: RESOURCE_SEARCH_LIST_SUCCESS, payload: data });
   } catch (error) {

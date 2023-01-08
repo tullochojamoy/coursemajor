@@ -15,7 +15,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       userSignin: { userInfo },
     } = getState();
     const { data } = await Axios.post(
-      'http://localhost:3000/api/order',
+      'https://coursemajor.vercel.app/api/order',
       order,
       { headers: { Authorization: `Bearer ${userInfo.token}` } }
     );
@@ -39,7 +39,7 @@ export const OrderDetails = (courseId) => async (dispatch, getState) => {
       userSignin: { userInfo },
     } = getState();
     const { data } = await Axios.get(
-      `http://localhost:3000/api/order/${courseId}`,
+      `https://coursemajor.vercel.app/api/order/${courseId}`,
       { headers: { Authorization: `Bearer ${userInfo.token}` } }
     );
 

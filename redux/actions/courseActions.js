@@ -34,7 +34,7 @@ export const list_courses = () => async (dispatch) => {
   dispatch({ type: COURSE_LIST_REQUEST });
   try {
     const { data } = await Axios.get(
-      'http://localhost:3000/api/courses'
+      'https://coursemajor.vercel.app/api/courses'
     );
     dispatch({ type: COURSE_LIST_SUCCESS, payload: data });
   } catch (error) {
@@ -50,7 +50,7 @@ export const listPurchasedCourses = () => async (dispatch, getState) => {
     } = getState();
 
     const { data } = await Axios.get(
-      'http://localhost:3000/api/courses/purchased',
+      'https://coursemajor.vercel.app/api/courses/purchased',
       { headers: { Authorization: `Bearer ${userInfo.token}` } }
     );
 
@@ -64,7 +64,7 @@ export const coursesDetails = (courseId) => async (dispatch) => {
   dispatch({ type: COURSE_DETAILS_REQUEST, payload: courseId });
   try {
     const { data } = await Axios.get(
-      `http://localhost:3000/api/courses/getCourse/${courseId}`
+      `https://coursemajor.vercel.app/api/courses/getCourse/${courseId}`
     );
     dispatch({ type: COURSE_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -84,14 +84,14 @@ export const courseCreate = (courseId) => async (dispatch, getState) => {
     const { userSignin: { userInfo }, } = getState();
 
     /*
-        const {data} = await Axios.post('http://localhost:3000/api/courses/create',
+        const {data} = await Axios.post('https://coursemajor.vercel.app/api/courses/create',
         { headers: { Authorization: `Bearer ${userInfo.token}` }, }
         );
         */
 
     const { data } = await Axios({
       method: 'post',
-      url: `http://localhost:3000/api/courses/create`,
+      url: `https://coursemajor.vercel.app/api/courses/create`,
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
 
@@ -139,7 +139,7 @@ export const courseUpdate = (courseId, formData) => async (dispatch, getState) =
       //console.log(formData);
       console.log('reached');
       
-      const { data } = await Axios.put(`http://localhost:3000/api/courses/updateCourse/${courseId}`,formData, config)
+      const { data } = await Axios.put(`https://coursemajor.vercel.app/api/courses/updateCourse/${courseId}`,formData, config)
         .then(res => {
           console.log('This is the response ',res);
           //setUploadPercentage(100);
@@ -175,7 +175,7 @@ export const coursePublish =
     console.log('action hit');
     try {
       const { data } = await Axios.put(
-        `http://localhost:3000/api/courses/published/${courseId}`,
+        `https://coursemajor.vercel.app/api/courses/published/${courseId}`,
         trueF,
         {
           headers: { Authorization: `Bearer ${userInfo?.token}` },
@@ -198,7 +198,7 @@ export const coursePublish =
   dispatch({ type: COURSE_SEARCH_LIST_REQUEST });
   try {
     const { data } = await Axios.get(
-      `http://localhost:3000/api/courses/search/${searchTerm}`
+      `https://coursemajor.vercel.app/api/courses/search/${searchTerm}`
     );
     dispatch({ type: COURSE_SEARCH_LIST_SUCCESS, payload: data });
   } catch (error) {

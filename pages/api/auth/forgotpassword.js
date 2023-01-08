@@ -15,7 +15,7 @@ async function handler(req, res) {
     await user.save();
 
     //EMAIL CONTENT
-    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+    const resetUrl = `https://coursemajor.vercel.app/passwordreset/${resetToken}`;
 
     const message = `
             <h1>You have requested a password reset</h1>

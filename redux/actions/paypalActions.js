@@ -23,7 +23,7 @@ export const paypalPayout = () => async (dispatch, getState) => {
 
   try {
     const { data } = await Axios.get(
-      `http://localhost:3000/api/paypal/paypal-payout`,
+      `https://coursemajor.vercel.app/api/paypal/paypal-payout`,
       config
     );
     dispatch(detailsUser());

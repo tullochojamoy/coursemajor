@@ -50,7 +50,7 @@ Meta.defaultProps = {
     'coursemajor, finance courses, online finance courses, personal finance courses, free finance courses, free online finance courses, financial accounting refresher course, business intelligence cours, blockchain course, free cost accounting classes online, cost accounting free online course, crash course managerial accounting, it support fundamentals, real estate course',
   description:
     'Get motivated to Learn on a global online learning platform that offers anyone, anywhere access to free and paid courses. Learn from your bedroom in niches such as Finance. Learn now for free.',
-  image: 'http://localhost:3000/brand/CourseMajor-logos-wide.jpeg',
+  image: 'https://coursemajor.vercel.app/brand/CourseMajor-logos-wide.jpeg',
   url: 'http://coursemajor.com'
 };
 

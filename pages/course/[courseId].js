@@ -651,8 +651,8 @@ export async function getServerSideProps(context) {
   let course;
   try {
     console.log(context.params.courseId);
-    //const res = await fetch(`http://localhost:3000/api/courses/${context.params.courseId}`);
-    const res = await fetch(`http://localhost:3000/api/courses/getCourse/${context.params.courseId}`);
+    //const res = await fetch(`https://coursemajor.vercel.app/api/courses/${context.params.courseId}`);
+    const res = await fetch(`https://coursemajor.vercel.app/api/courses/getCourse/${context.params.courseId}`);
     course = await res.json();
     //console.log('The err is ',course);
   } catch (err) {

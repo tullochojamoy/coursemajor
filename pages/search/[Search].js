@@ -273,7 +273,7 @@ export async function getServerSideProps() {
   let courses = [];
   /*
   try {
-    const res = await fetch(`http://localhost:3000/api/courses`);
+    const res = await fetch(`https://coursemajor.vercel.app/api/courses`);
     courses = await res.json();
     console.log(courses);
   } catch (err) {

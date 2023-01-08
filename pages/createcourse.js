@@ -101,7 +101,7 @@ export default function CreateCourse({ courseInitialDetails }) {
                     <div className='u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-1'>
                       <img
                         className='u-image u-image-default u-image-1'
-                        src={`http://localhost:3000/api/courses/image/${courseDetail?.course?.course.imageKey}`}
+                        src={`https://coursemajor.vercel.app/api/courses/image/${courseDetail?.course?.course.imageKey}`}
                         alt={courseDetail.course.course.title}
                         data-image-width='817'
                         data-image-height='933'
@@ -346,7 +346,7 @@ export default function CreateCourse({ courseInitialDetails }) {
                       <input {...getInputProps()} />
                       <img
                         className='u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-image u-image-default u-preserve-proportions u-image-1'
-                        src={`http://localhost:3000/api/courses/image/${courseDetail.course.course.imageKey}`}
+                        src={`https://coursemajor.vercel.app/api/courses/image/${courseDetail.course.course.imageKey}`}
                         alt={courseDetail.course.course.title}
                         data-image-width='817'
                         data-image-height='933'
@@ -448,7 +448,7 @@ export default function CreateCourse({ courseInitialDetails }) {
 export async function getServerSideProps(context) {
   let courseInitialDetails;
   try {
-    const res = await fetch(`http://localhost:3000/api/courses/getCourse/${context.query.courseId}`);
+    const res = await fetch(`https://coursemajor.vercel.app/api/courses/getCourse/${context.query.courseId}`);
     const courseInitialDetails = await res.json();
   } catch (err) {
     //console.log(err);

@@ -30,24 +30,19 @@ const sendToken = (user, statusCode, res) => {
 
 const preHandler = (controller) => async(req,res) =>{
   try{
-    // if (mongoose.connections[0].readyState) {
-    //   return await controller(req, res);
-    // }
-    // await mongoose.connect('mongodb://0.0.0.0:270178', {
-    //     useNewUrlParser: true,
-    //     // useCreateIndex: true,
-    //     // useFindAndModify: false,
-    //     useUnifiedTopology: true,
-    //   })
-    //   .then(async() => {
-    //     return await controller(req, res);
-    //   });
-
-    const connected = await connectDB();
-    if (!connected){
-      throw new Error('Database did not start correctly')
+    if (mongoose.connections[0].readyState) {
+      return await controller(req, res);
     }
-    return await controller(req,res);
+
+    await mongoose.connect('mongodb://0.0.0.0:27017', {
+      keepAlive: true,  
+      useNewUrlParser: true, 
+      useUnifiedTopology: true,
+    }).then(async() => {
+      return await controller(req, res);
+    }).catch(()=>{
+      throw new Error('Database did not start correctly')
+    });
   } catch(error){
     if(error instanceof AppError){
       return res.status(error.statusCode).json({ 

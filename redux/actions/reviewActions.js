@@ -19,7 +19,7 @@ export const listReviews = (courseId) => async (dispatch) => {
   dispatch({ type: REVIEW_LIST_REQUEST });
   try {
     const { data } = await Axios.get(
-      `http://localhost:3000/api/reviews/all/${courseId}`
+      `https://coursemajor.vercel.app/api/reviews/all/${courseId}`
     );
     dispatch({ type: REVIEW_LIST_SUCCESS, payload: data });
   } catch (error) {
@@ -32,7 +32,7 @@ export const reviewDetails = (courseId) => async (dispatch) => {
   try {
 
 
-    const { data } = await Axios.put(`http://localhost:3000/api/reviews/course/${courseId}`)
+    const { data } = await Axios.put(`https://coursemajor.vercel.app/api/reviews/course/${courseId}`)
       .then((res) => {
         dispatch({ type: REVIEW_DETAILS_SUCCESS, payload: res.reviews });
       })
@@ -71,7 +71,7 @@ export const reviewCreate =
       } = getState();
 
       const { data } = await Axios.post(
-        `http://localhost:3000/api/reviews/createorupdate/${courseId}`,
+        `https://coursemajor.vercel.app/api/reviews/createorupdate/${courseId}`,
         { review, reviewTitle, reviewMessage },
         { headers: { Authorization: `Bearer ${userInfo?.token}` } }
       );
@@ -98,7 +98,7 @@ export const reviewUpdate =
       } = getState();
 
       const { data } = await Axios.post(
-        `http://localhost:3000/api/reviews/createorupdate/${courseId}`,
+        `https://coursemajor.vercel.app/api/reviews/createorupdate/${courseId}`,
         { review, reviewTitle, reviewMessage },
         { headers: { Authorization: `Bearer ${userInfo?.token}` } }
       );
