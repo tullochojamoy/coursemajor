@@ -34,7 +34,7 @@ const preHandler = (controller) => async(req,res) =>{
       return await controller(req, res);
     }
 
-    await mongoose.connect('mongodb://0.0.0.0:27017', {
+    await mongoose.connect(process.env.MONGO_URI, {
       keepAlive: true,  
       useNewUrlParser: true, 
       useUnifiedTopology: true,
