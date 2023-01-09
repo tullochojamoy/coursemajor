@@ -97,7 +97,11 @@ export default memo(function Footer() {
                                 </Link>
                                 
                                 <br/>Contact Us<br/>
-                                <Link href={{pathname:"https://blog.coursemajor.com/"}} target="_blank" className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-2"><a>Blog</a></Link>
+                                <Link href='#'
+                                // href={{pathname:"https://blog.coursemajor.com/"}} target="_blank" 
+                                className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-2">
+                                  <a>Blog</a>
+                                </Link>
                                 <br/>
                                 <Link href={{pathname:"https://play.google.com/store/apps/details?id=com.coursemajor.app"}} target="_blank" className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-3"><a>Get our App</a></Link>
                               </span>

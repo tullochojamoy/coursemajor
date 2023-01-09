@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import Ratings from '../components/Rating';
-//import { list_courses } from './redux/actions/courseActions';
 import Image from 'next/image';
 
 
@@ -13,18 +12,8 @@ export default function Home({courses}) {
   const { userInfo } = useSelector((state) => state.userSignin);
 
 
-  function scrollClickHandler() {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }
-
-  
-
-  return (
-    <>
+  function Header(){
+    return (
       <section
         className='u-align-right u-clearfix u-image u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-section-51'
         id='carousel_7eac'
@@ -53,13 +42,13 @@ export default function Home({courses}) {
           </div>
         </div>
       </section>
+    );
+  }
 
-      {courses?.length > 0 ? (
-        <>
-          <section
-            className='u-align-center u-clearfix u-section-53'
-            id='sec-3bea'
-          >
+  function Courses(){
+    return(
+      <>
+          <section className='u-align-center u-clearfix u-section-53' id='sec-3bea'>
             <div className='u-clearfix u-sheet u-valign-middle u-sheet-1'>
               <h1 className='u-text u-text-default u-text-1'>Courses</h1>
             </div>
@@ -120,8 +109,19 @@ export default function Home({courses}) {
             </div>
           </section>
         </>
-      ) : (
-        <section className='u-clearfix u-section-52' id='carousel_8635'>
+    );
+  }
+
+  function StartTeaching(){
+    function scrollClickHandler() {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+    return(
+      <section className='u-clearfix u-section-52' id='carousel_8635'>
           <div className='u-clearfix u-sheet u-valign-middle u-sheet-1'>
             <div className='u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1'>
               <div className='u-layout'>
@@ -140,15 +140,8 @@ export default function Home({courses}) {
                         </div>
                       </div>
                       <div className='u-shape u-shape-svg u-text-palette-4-base u-shape-2'>
-                        <svg
-                          className='u-svg-link'
-                          preserveAspectRatio='none'
-                          viewBox='0 0 160 50'
-                        >
-                          <use
-                            xmlnsXlink='http://www.w3.org/1999/xlink'
-                            xlinkHref='#svg-7f47'
-                          ></use>
+                        <svg className='u-svg-link' preserveAspectRatio='none' viewBox='0 0 160 50'>
+                          <use xmlnsXlink='http://www.w3.org/1999/xlink' xlinkHref='#svg-7f47'></use>
                         </svg>
                         <svg
                           className='u-svg-content'
@@ -185,7 +178,7 @@ export default function Home({courses}) {
                       </p>
                       <Link
                         href='/teachtoday'
-                        //onClick={scrollClickHandler}
+                        onClick={scrollClickHandler}
                       >
                         <a className='u-active-palette-1-dark-2 u-btn u-btn-rectangle u-button-style u-custom-font u-font-pt-sans u-hover-palette-1-dark-2 u-palette-1-dark-3 u-radius-0 u-btn-1'>
                           START TEACHING
@@ -198,82 +191,17 @@ export default function Home({courses}) {
             </div>
           </div>
         </section>
-      )}
+    );
+  }  
 
-      {/*
-        <section className="u-align-center u-clearfix u-grey-5 u-section-55" id="sec-c530">
-          <div className="u-clearfix u-sheet u-sheet-1">
-            <h2 className="u-text u-text-1">Top Sellers</h2>
-            <div className="u-expanded-width u-gallery u-layout-horizontal u-lightbox u-no-transition u-show-text-on-hover u-width-fixed u-gallery-1">
-              <div className="u-gallery-inner">
-                <div className="u-effect-fade u-gallery-item u-gallery-item-1">
-                  <div className="u-back-slide">
-                    <img className="u-back-image u-back-image-1" src="/images/1.svg"/>
-                  </div>
-                  <div className="u-over-slide u-shading u-over-slide-1">
-                    <h3 className="u-gallery-heading"></h3>
-                    <p className="u-gallery-text"></p>
-                  </div>
-                  </div>
-                  <div className="u-effect-fade u-gallery-item u-gallery-item-2">
-                    <div className="u-back-slide">
-                      <img className="u-back-image u-back-image-2" src="/images/1.svg"/>
-                    </div>
-                    <div className="u-over-slide u-shading u-over-slide-2">
-                      <h3 className="u-gallery-heading"></h3>
-                      <p className="u-gallery-text"></p>
-                    </div>
-                  </div>
-                  <div className="u-effect-fade u-gallery-item u-gallery-item-3">
-                    <div className="u-back-slide">
-                      <img className="u-back-image u-back-image-3" src="/images/1.svg"/>
-                    </div>
-                    <div className="u-over-slide u-shading u-over-slide-3">
-                      <h3 className="u-gallery-heading"></h3>
-                      <p className="u-gallery-text"></p>
-                    </div>
-                  </div>
-                  <div className="u-effect-fade u-gallery-item u-gallery-item-4"><div className="u-back-slide"><img className="u-back-image u-back-image-4" src="/images/1.svg"/>
-                  </div><div className="u-over-slide u-shading u-over-slide-4"><h3 className="u-gallery-heading"></h3><p className="u-gallery-text"></p>
-                  </div>
-                  </div><div className="u-effect-fade u-gallery-item u-gallery-item-5"><div className="u-back-slide"><img className="u-back-image u-back-image-5" src="/images/1.svg"/>
-                  </div><div className="u-over-slide u-shading u-over-slide-5"><h3 className="u-gallery-heading"></h3><p className="u-gallery-text"></p>
-                  </div>
-                  </div><div className="u-effect-fade u-gallery-item u-gallery-item-6"><div className="u-back-slide"><img className="u-back-image u-back-image-6" src="/images/1.svg"/>
-                  </div><div className="u-over-slide u-shading u-over-slide-6"><h3 className="u-gallery-heading"></h3><p className="u-gallery-text"></p>
-                  </div>
-                  </div></div>
-              <Link className="u-absolute-vcenter u-gallery-nav u-gallery-nav-prev u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-gallery-nav-1" href="#" role="button">
-                <span aria-hidden="true">
-                  <svg viewBox="0 0 451.847 451.847">
-                    <path d="M97.141,225.92c0-8.095,3.091-16.192,9.259-22.366L300.689,9.27c12.359-12.359,32.397-12.359,44.751,0
-    c12.354,12.354,12.354,32.388,0,44.748L173.525,225.92l171.903,171.909c12.354,12.354,12.354,32.391,0,44.744
-    c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,234.018,97.141,225.92z"></path>
-                  </svg>
-                </span>
-                <span className="sr-only">
-                  <svg viewBox="0 0 451.847 451.847"><path d="M97.141,225.92c0-8.095,3.091-16.192,9.259-22.366L300.689,9.27c12.359-12.359,32.397-12.359,44.751,0
-    c12.354,12.354,12.354,32.388,0,44.748L173.525,225.92l171.903,171.909c12.354,12.354,12.354,32.391,0,44.744
-    c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,234.018,97.141,225.92z"></path></svg>
-                </span>
-              </Link>
-              <Link className="u-absolute-vcenter u-gallery-nav u-gallery-nav-next u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-gallery-nav-2" href="#" role="button">
-                <span aria-hidden="true">
-                  <svg viewBox="0 0 451.846 451.847"><path d="M345.441,248.292L151.154,442.573c-12.359,12.365-32.397,12.365-44.75,0c-12.354-12.354-12.354-32.391,0-44.744
-    L278.318,225.92L106.409,54.017c-12.354-12.359-12.354-32.394,0-44.748c12.354-12.359,32.391-12.359,44.75,0l194.287,194.284
-    c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,248.292z"></path></svg>
-                </span>
-                <span className="sr-only">
-                  <svg viewBox="0 0 451.846 451.847">
-                    <path d="M345.441,248.292L151.154,442.573c-12.359,12.365-32.397,12.365-44.75,0c-12.354-12.354-12.354-32.391,0-44.744
-    L278.318,225.92L106.409,54.017c-12.354-12.359-12.354-32.394,0-44.748c12.354-12.359,32.391-12.359,44.75,0l194.287,194.284
-    c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,248.292z"></path></svg>
-                </span>
-              </Link>
-            </div>
-          </div>
-        </section>
-      */}
+  return (
+    <>
+      <Header/>
+      {courses?.length > 0 ? (
+        <Courses/>
+      ) : (
+        <StartTeaching/>
+      )}
     </>
   );
 }
@@ -286,9 +214,7 @@ export async function getServerSideProps() {
   try {
     const res = await fetch(`https://coursemajor.vercel.app/api/courses`);
     courses = await res.json();
-    //console.log(courses);
   } catch (err) {
-    //console.log(err);
     courses = [];
   }
 
